@@ -39,6 +39,25 @@ const friendSchema = new mongoose.Schema({
   }
 });
 
+friendSchema.pre('remove', async function(next){
+  try {
+    await db.Photo.remove({
+      friend: this._id
+    });
+    let shelter = await db.Shelter.findById(this.shelter);
+    await shelter.friends.remove(this.id);
+    await shelter.save();
+    let users = await db.User.find({favorites: this.id});
+    for(let user of users){
+      user.favorites.remove(this.id);
+      user.save();
+    }
+    next();
+  } catch(err){
+    next(err);
+  }
+})
+
 
 
 module.exports = mongoose.model('Friend', friendSchema)

@@ -1,5 +1,7 @@
 const db = require("../config/database");
 
+//CREATE
+
 exports.addFriend = async function(req, res, next){
   try {
     let {shelter, user} = res.locals;
@@ -12,7 +14,7 @@ exports.addFriend = async function(req, res, next){
       creator: user._id,
       friend: friend._id,
       path: req.body.photo
-    })
+    });
     await friend.media.photos.push(photo._id);
     await friend.save();
     shelter.friends.push(friend);
@@ -22,6 +24,8 @@ exports.addFriend = async function(req, res, next){
     next(err);
   }
 }
+
+//READ
 
 exports.getFriends = async function(req, res, next){
   try {
@@ -41,12 +45,14 @@ exports.getFriend = async function(req, res, next){
   try {
     let friend = await db.Friend.findById(req.params.friend_id)
       .populate('shelter', 'name')
-      .populate('media.photos', 'path');
+      .populate('media.photos', 'path');  
     res.status(200).json(friend);
   } catch(err){
     next(err);
   }
 }
+
+//UPDATE
 
 exports.updateFriend = async function(req, res, next){
   try {
@@ -65,11 +71,24 @@ exports.updateFriend = async function(req, res, next){
         ))
       } else {
         friend.ups++;
-        user.favorites.push(friend._id);
+        user.favorites.push(friend);
       }
       await user.save();
       await friend.save();
     }
+    res.status(200).json(friend);
+  } catch(err){
+    next(err);
+  }
+}
+
+//DELETE
+
+exports.deleteFriend = async function(req, res, next){
+  try {
+    let friend = await db.Friend.findById(req.params.friend_id);
+    //pre 'remove' hook inside friendSchema doesn't fire with findByIdAndRemove;
+    await friend.remove();
     res.status(200).json(friend);
   } catch(err){
     next(err);

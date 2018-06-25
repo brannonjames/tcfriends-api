@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getAllShelters, addShelter, getShelter} = require('./handlers');
+const {getAllShelters, addShelter, getShelter, deleteShelter} = require('./handlers');
 const {isLoggedIn, isShelterCreator} = require('../middleware/auth');
 
 router.route('/')
@@ -9,7 +9,7 @@ router.route('/')
 
 router.route('/:shelter_id')
   .get(getShelter)  //READ
-  .delete(isLoggedIn, isShelterCreator) //DELETE
+  .delete(isLoggedIn, isShelterCreator, deleteShelter) //DELETE
 
 
 

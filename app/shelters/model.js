@@ -13,34 +13,47 @@ const shelterSchema = new mongoose.Schema({
   city: {
     type: String
   },
-  moderators: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User'
-    }
-  ],
+  moderators: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
   creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   },
-  friends: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Friend'
-    }
-  ]
+  friends: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Friend'
+  }]
 });
 
-shelterSchema.pre('remove', async function(next){
+shelterSchema.pre('remove', async function (next) {
   try {
-   let friends = this.friends;
-   let user = await db.Shelter.findById(this.creator);
-   user.shelter.remove();
-   for(let friend of friends){
-     friend.remove();
-   }
-  } catch(err){
+    //Remove shelter from creator
+    let user = await db.User.findById(this.creator);
+    user.shelter = undefined;
+    await user.save();
 
+    //Remove shelter from mods
+    let users = await db.User.find({
+      sheltersModerating: this.id
+    });
+    for (let user of users) {
+      user.sheltersModerating.remove(this.id);
+      user.save();
+    }
+
+    //delete shelter friends
+    let friends = this.friends;
+    for (let friend of friends) {
+      console.log(friend._id)
+      this.friends.remove(friend.id);
+    }
+
+    next()
+    
+  } catch (err) {
+    next(err);
   }
 })
 

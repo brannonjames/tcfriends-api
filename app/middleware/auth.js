@@ -21,6 +21,24 @@ exports.isLoggedIn = async function(req, res, next){
   }
 }
 
+exports.isShelterCreator = async function(req, res, next){
+  try {
+    let shelter = await db.Shelter.findById(req.params.shelter_id);
+    let {_id:userId} = res.locals.user; 
+    if(shelter._id.equals(userId)){
+      res.locals.shelter = shelter;
+      next();
+    } else {
+      throw Error()
+    }
+  } catch(err){
+    next({
+      status: 401,
+      message: "You do not ave permission to do that"
+    })
+  }
+}
+
 exports.ensureShelterMod = async function(req, res, next){
   try {
     let shelter = await db.Shelter.findById(req.query.shelterId).populate('moderators');
@@ -35,7 +53,6 @@ exports.ensureShelterMod = async function(req, res, next){
       throw Error()
     }
   } catch(err){
-    console.log(err)
     next({
       status: 401,
       message: "You do not have permission to do that"

@@ -11,7 +11,7 @@ router.route('/')
 router.route('/:friend_id')
   .get(getFriend) //read
   .put(isLoggedIn, updateFriend) //update
-  .delete(deleteFriend) // delete
+  .delete(isLoggedIn, ensureShelterMod, deleteFriend) // delete
 
 
 

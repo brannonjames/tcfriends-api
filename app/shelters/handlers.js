@@ -59,7 +59,7 @@ exports.deleteShelter = async function(req, res, next){
     await shelter.remove()
     res.status(200).json(shelter);
   } catch(err) {
-    
+      next(err);
   }
 }
 

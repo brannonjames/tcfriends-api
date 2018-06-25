@@ -2,30 +2,7 @@ const db = require('../config/database');
 
 
 
-
-
-exports.getAllShelters = async function(req, res, next){
-    try {
-      let shelters = await db.Shelter.find()
-        .skip(Number(req.query.skip) || null)
-        .limit(Number(req.query.limit) || null)
-      res.status(200).json(shelters);
-    } catch(err){
-      next(err);
-    }
-  }
-
-
-exports.getShelter = async function(req, res, next){
-  try {
-    let shelter = await db.Shelter.findById(req.params.shelter_id)
-      .populate('friends')  
-    res.status(200).json(shelter);  
-  } catch(err){
-    next(err);
-  }
-}
-
+//CREATE
 
 exports.addShelter = async function(req, res, next){
   try {
@@ -49,3 +26,41 @@ exports.addShelter = async function(req, res, next){
     next(err);
   }
 }
+//READ
+
+exports.getAllShelters = async function(req, res, next){
+  try {
+    let shelters = await db.Shelter.find()
+      .skip(Number(req.query.skip) || null)
+      .limit(Number(req.query.limit) || null)
+    res.status(200).json(shelters);
+  } catch(err){
+    next(err);
+  }
+}
+
+
+exports.getShelter = async function(req, res, next){
+try {
+  let shelter = await db.Shelter.findById(req.params.shelter_id)
+    .populate('friends')  
+  res.status(200).json(shelter);  
+} catch(err){
+  next(err);
+}
+}
+//UPDATE
+
+//DELETE
+
+exports.deleteShelter = async function(req, res, next){
+  try {
+    let {shelter} = res.locals;
+    await shelter.remove()
+    res.status(200).json(shelter);
+  } catch(err) {
+    
+  }
+}
+
+

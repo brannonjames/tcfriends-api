@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const db = require('../config/database');
 
 
 const shelterSchema = new mongoose.Schema({
@@ -29,5 +30,18 @@ const shelterSchema = new mongoose.Schema({
     }
   ]
 });
+
+shelterSchema.pre('remove', async function(next){
+  try {
+   let friends = this.friends;
+   let user = await db.Shelter.findById(this.creator);
+   user.shelter.remove();
+   for(let friend of friends){
+     friend.remove();
+   }
+  } catch(err){
+
+  }
+})
 
 module.exports = mongoose.model('Shelter', shelterSchema);

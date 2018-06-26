@@ -6,11 +6,35 @@ const shelterSchema = new mongoose.Schema({
     type: String,
     required: 'Shelter name required'
   },
-  email: {
-    type: String
-  },
-  city: {
-    type: String
+  contact: {
+    email: {
+      type: String,
+      required: true
+    },
+    phone: {
+      type: String
+    },
+    address1: {
+      type: String
+    },
+    address2: {
+      type: String
+    },
+    city: {
+      type: String
+    },
+    state: {
+      type: String
+    },
+    zip: {
+      type: String
+    },
+    latitude: {
+      type: String
+    },
+    longitude: {
+      type: String
+    },
   },
   moderators: [
     {

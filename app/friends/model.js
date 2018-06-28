@@ -10,8 +10,12 @@ const friendSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  gender: {
+    type: String,
+    required: true
+  },
   age: {
-    type: Number
+    type: String
   },
   media: {
     photos: [
@@ -20,6 +24,9 @@ const friendSchema = new mongoose.Schema({
         ref: "Photo"
       }
     ]
+  },
+  description: {
+    type: String
   },
   shelter: {
     type: mongoose.Schema.Types.ObjectId,

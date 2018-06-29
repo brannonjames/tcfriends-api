@@ -55,6 +55,6 @@ shelterSchema.pre('remove', async function (next) {
   } catch (err) {
     next(err);
   }
-})
+});
 
 module.exports = mongoose.model('Shelter', shelterSchema);

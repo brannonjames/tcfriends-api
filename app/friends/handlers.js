@@ -75,3 +75,13 @@ exports.updateFriend = async function(req, res, next){
     next(err);
   }
 }
+
+exports.handleNewImages = async function(req, res, next){
+  try {
+    console.log(req.file);
+    
+    res.sendStatus(200);
+  } catch(err){
+    next(err);
+  }
+}

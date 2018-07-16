@@ -1,5 +1,6 @@
 require('dotenv').config();
-const app = require('express')();
+const express = require('express')
+const app = express();
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3001;
 
@@ -11,6 +12,8 @@ const {errorHandler} = require('./app/error');
 
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 
 app.use('/api/users/', userRoutes);

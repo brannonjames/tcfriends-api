@@ -7,7 +7,7 @@ router.route('/')
   .get(getFriends)
   .post(isLoggedIn, ensureShelterMod, addFriend)
 
-  
+
 router.route('/:friend_id')
   .get(getFriend)
   .put(isLoggedIn, updateFriend)

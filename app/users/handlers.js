@@ -31,8 +31,7 @@ exports.handleLogin = async function(req, res, next){
     .findOne({
       email: req.body.email
     })
-    .populate('shelter', 'name')
-    .populate('favorites');
+    .populate('shelter', 'name');
     if(!user){
       return next({
         status: 401,
@@ -67,7 +66,6 @@ exports.getUser = async function(req, res, next){
   try {
     let user = await db.User.findById(req.params.user_id)
     .populate('shelter', 'name')
-    .populate('favorites');
     let {_id, email, name, createdDate, displayPhoto, shelter, favorites} = user;
     let token = jwt.sign({
       name,
@@ -81,6 +79,22 @@ exports.getUser = async function(req, res, next){
     res.status(200).json(token);
   } catch(err){
     err.message = 'User not found';
+    next(err);
+  }
+}
+
+
+exports.getFavorites = async function(req, res, next){
+  try {
+    const user = await db.User.findById(res.locals.user._id) 
+      .populate({
+        path: 'favorites',
+        populate: {
+          path: 'media.photos'
+        }
+      })
+    res.status(200).json(user.favorites);
+  } catch(err) {
     next(err);
   }
 }

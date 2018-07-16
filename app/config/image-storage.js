@@ -4,7 +4,7 @@ const cloudinaryStorage = require('multer-storage-cloudinary');
 
 let storage;
 
-if(process.env.NODE_ENV === 'production'){
+if(process.env.NODE_ENV === 'PROD'){
   console.log('production');
   storage = cloudinaryStorage({
     cloudinary: cloudinary,

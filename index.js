@@ -14,7 +14,7 @@ const {errorHandler} = require('./app/error');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-if (process.env.NODE_ENV !== 'production'){
+if (process.env.NODE_ENV !== 'PROD'){
 	app.use(express.static('public'));
 }
 

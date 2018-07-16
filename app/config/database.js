@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.set('degub', process.env.DB_DEBUG || false);
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'PROD') {
   mongoose.connect(process.env.DB_URL);
 } else {
   mongoose.connect('mongodb://localhost/tcfriends_api');

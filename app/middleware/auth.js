@@ -7,7 +7,6 @@ exports.isLoggedIn = async function(req, res, next){
     jwt.verify(token, process.env.JWT_KEY, async function(err, decodedUser){
       if(decodedUser){
         res.locals.user = await db.User.findById(decodedUser._id);
-        console.log(res.locals);
         next()
       } else {
         throw Error();

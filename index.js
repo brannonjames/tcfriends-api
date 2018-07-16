@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express')
 const app = express();
 const bodyParser = require('body-parser');
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3069;
 
 const friendRoutes = require('./app/friends');
 const userRoutes = require('./app/users');

@@ -13,7 +13,10 @@ const {errorHandler} = require('./app/error');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+
+if (process.env.NODE_ENV !== 'production'){
+	app.use(express.static('public'));
+}
 
 
 app.use('/api/users/', userRoutes);

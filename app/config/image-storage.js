@@ -4,19 +4,25 @@ const cloudinaryStorage = require('multer-storage-cloudinary');
 
 let storage;
 
-// if(process.env.NODE_ENV === 'production'){
-  // console.log('production');
+if(process.env.NODE_ENV === 'production'){
+  console.log('production');
   storage = cloudinaryStorage({
     cloudinary: cloudinary,
     allowedFormats: ['jpg', 'png'],
     filename: function(req, file, cb){
       cb(null, file.fieldname + '.jpg');
-      console.log(file);
     }
   });
-// } else {
-
-// }
+} else {
+  storage = multer.diskStorage({
+    destination: function(req, file, cb){
+      cb(null, 'public/images');
+    },
+    filename: function(req, file, cb){
+      cb(null, file.originalname);
+    }
+  })
+}
 
 
 

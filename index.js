@@ -21,7 +21,7 @@ if (process.env.NODE_ENV !== 'PROD'){
 
 app.use('/api/users/', userRoutes);
 app.use('/api/friends', friendRoutes);
-app.use('/api/photos', photoRoutes);
+app.use('/api/', photoRoutes);
 app.use('/api/shelters', shelterRoutes);
 
 app.use(function(req, res, next){

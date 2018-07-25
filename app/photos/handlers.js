@@ -15,7 +15,7 @@ exports.addPhoto = async function(req, res, next){
 		}
 
 		const newPhoto = await Photo.create(photo);
-		friend.media.photos.push(newPhoto);
+		friend.media.photos.unshift(newPhoto);
 		await friend.save();
 
 		res.sendStatus(200);

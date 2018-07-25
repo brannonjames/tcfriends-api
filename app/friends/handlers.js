@@ -8,10 +8,11 @@ exports.addFriend = async function(req, res, next){
       shelter: shelter._id,
       ...req.body
     });
+    console.log(friend);
     let photo = await db.Photo.create({
       creator: user._id,
       friend: friend._id,
-      path: req.body.photo
+      url: req.body.url
     })
     await friend.media.photos.push(photo._id);
     await friend.save();

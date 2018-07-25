@@ -52,7 +52,7 @@ exports.updateFriend = async function(req, res, next){
   try {
     let friend = await db.Friend.findByIdAndUpdate(req.params.friend_id, req.body, {new: true})
       .populate('shelter', 'name')
-      .populate('media.photos', 'path')
+      .populate('media.photos', 'url')
     if(req.query.heart){
       let {user} = res.locals;
       isHearted = user.favorites.some(f => (

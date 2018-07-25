@@ -14,7 +14,6 @@ exports.addPhoto = async function(req, res, next){
 			photo.url = `http://localhost:3069/images/${req.file.originalname}`
 		}
 
-		console.log(photo);	
 		const newPhoto = await Photo.create(photo);
 		friend.media.photos.push(newPhoto);
 		await friend.save();

@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 mongoose.set('degub', process.env.DB_DEBUG || false);
-mongoose.connect(process.env.DB_URL || 'mongodb://localhost/tcfriends_api');
+
+if (process.env.NODE_ENV === 'PROD') {
+  mongoose.connect(process.env.DB_URL);
+} else {
+  mongoose.connect('mongodb://localhost/tcfriends_api');
+}
 
 mongoose.Promise = Promise;
 

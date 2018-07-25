@@ -30,7 +30,7 @@ exports.getFriends = async function(req, res, next){
       .limit(Number(limit))
       .skip(Number(skip))
       .populate('shelter', 'name')
-      .populate('media.photos', 'path')
+      .populate('media.photos', 'url')
     res.status(200).json(friends);
   } catch(err){
     next(err)
@@ -41,7 +41,7 @@ exports.getFriend = async function(req, res, next){
   try {
     let friend = await db.Friend.findById(req.params.friend_id)
       .populate('shelter', 'name')
-      .populate('media.photos', 'path');
+      .populate('media.photos', 'url');
     res.status(200).json(friend);
   } catch(err){
     next(err);

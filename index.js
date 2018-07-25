@@ -1,7 +1,8 @@
 require('dotenv').config();
-const app = require('express')();
+const express = require('express')
+const app = express();
 const bodyParser = require('body-parser');
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3069;
 
 const friendRoutes = require('./app/friends');
 const userRoutes = require('./app/users');
@@ -11,11 +12,16 @@ const {errorHandler} = require('./app/error');
 
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+if (process.env.NODE_ENV !== 'PROD'){
+	app.use(express.static('public'));
+}
 
 
 app.use('/api/users/', userRoutes);
 app.use('/api/friends', friendRoutes);
-app.use('/api/photos', photoRoutes);
+app.use('/api/', photoRoutes);
 app.use('/api/shelters', shelterRoutes);
 
 app.use(function(req, res, next){

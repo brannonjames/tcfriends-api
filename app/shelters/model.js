@@ -8,8 +8,7 @@ const shelterSchema = new mongoose.Schema({
   },
   contact: {
     email: {
-      type: String,
-      required: true
+      type: String
     },
     phone: {
       type: String

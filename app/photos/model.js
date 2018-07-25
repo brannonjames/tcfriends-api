@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Friend } = require('../config/database');
 
 const photoSchema = new mongoose.Schema({
   url: {
@@ -22,14 +23,16 @@ const photoSchema = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('Photo', photoSchema)
+photoSchema.pre('remove', async function(next){
+  try {
+    const friend = await Friend.findById(this.friend);
+    friend.media.photos.remove(this._id);
+    await friend.save();
+    next();
+  } catch(err) {
+    next(err);
+  }
+})
 
 
-// { fieldname: 'file',
-//   originalname: '73beb2a70497ca28a9e2d6d7b1056e9b.jpg',
-//   encoding: '7bit',
-//   mimetype: 'image/jpeg',
-//   destination: 'public/images',
-//   filename: '73beb2a70497ca28a9e2d6d7b1056e9b.jpg',
-//   path: 'public/images/73beb2a70497ca28a9e2d6d7b1056e9b.jpg',
-//   size: 31292 }
+module.exports = mongoose.model('Photo', photoSchema);

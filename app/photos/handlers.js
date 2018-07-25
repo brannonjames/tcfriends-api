@@ -24,3 +24,14 @@ exports.addPhoto = async function(req, res, next){
 		next(err);
 	}
 }
+
+
+exports.deletePhoto = async function(req, res, next){
+	try {
+		const photoToRemove = await Photo.findById(req.params.image_id);
+		await photoToRemove.remove();
+		res.sendStatus(200);
+	} catch(err){
+		next(err);
+	}
+}
